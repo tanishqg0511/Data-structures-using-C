@@ -1,73 +1,118 @@
-#include<stdio.h>
-#define size 10
-int que[size];
-int r=0,f=0;
-void enq_rear(int val)
-{   
-    if(f==size/2)
-    {
-    	printf("\nQueue is full!");
-        return;
-    }
-	else
-    {
-        printf("\nEnter the value to be inserted:");
-        scanf("%d",&val);
-        que[f]=val;
-        f++;
-	}
-}
-
-void enq_front(int val)
-{   
-     if(f==size/2)
-      {
-            printf("\nQueue is full");
-            return;
-      }
-      else{
-        printf("\nEnter the value to be inserted:");
-        scanf("%d",&val);
-        r--;
-        que[r] = val;
-	}
-}
-int deq_rear()
-{
-     int deleted;
-     if(f==r)
-     {
-    	printf("\nQueue is Empty!");
-        return 0;
-     }
-     f--;
-     deleted = que[f+1];
-     return deleted;
-}
-int deq_front()
-{
-     int deleted;
-     if(f==r)
-     {
-        printf("\nQueue is Empty!");
-        return 0;
-     }
-     r++;
-     deleted = que[r-1];
-     return deleted;
-}
-void display()
-{
-     int i;
-     if(f==r)
-        printf("\nQueue is Empty!");
-     else{
-        printf("\nThe Queue elements are:");
-        for(i=r;i<f;i++)
-        {
-           printf("%d  ",que[i]);
-        }
-     }
+#define size 5    
+#include <stdio.h>  
+int deque[size];  
+int f=-1, r=-1;  
+//  enqueue_front function will insert the value from the front  
+void enq_front(int x)  
+{  
+    if((f==0 && r==size-1) || (f==r+1))  
+    {  
+        printf("deque is full");  
+    }  
+    else if((f==-1) && (r==-1))  
+    {  
+        f=r=0;  
+        deque[f]=x;  
+    }  
+    else if(f==0)  
+    {  
+        f=size-1;  
+        deque[f]=x;  
+    }  
+    else  
+    {  
+        f=f-1;  
+        deque[f]=x;  
+    }  
+}  
+  
+// enqueue_rear function will insert the value from the rear  
+void enq_rear(int x)  
+{  
+    if((f==0 && r==size-1) || (f==r+1))  
+    {  
+        printf("deque is full");  
+    }  
+    else if((f==-1) && (r==-1))  
+    {  
+        r=0;  
+        deque[r]=x;  
+    }  
+    else if(r==size-1)  
+    {  
+        r=0;  
+        deque[r]=x;  
+    }  
+    else  
+    {  
+        r++;  
+        deque[r]=x;  
+    }  
+}  
+  
+// display function prints all the value of deque.  
+void display()  
+{  
+    int i=f;  
+    printf("\n Elements in a deque : ");  
+      
+    while(i!=r)  
+    {  
+        printf("%d ",deque[i]);  
+        i=(i+1)%size;  
+    }  
+     printf("%d",deque[r]);  
+}  
+// dequeue_front() function deletes the element from the front  
+void deq_front()  
+{  
+    if((f==-1) && (r==-1))  
+    {  
+        printf("Deque is empty");  
+    }  
+    else if(f==r)  
+    {  
+        printf("\nThe deleted element is %d", deque[f]);  
+        f=-1;  
+        r=-1;  
+          
+    }  
+     else if(f==(size-1))  
+     {  
+         printf("\nThe deleted element is %d", deque[f]);  
+         f=0;  
+     }  
+     else  
+     {  
+          printf("\nThe deleted element is %d", deque[f]);  
+          f=f+1;  
+     }  
+}  
+  
+// dequeue_rear() function deletes the element from the rear  
+void deq_rear()  
+{  
+    if((f==-1) && (r==-1))  
+    {  
+        printf("Deque is empty");  
+    }  
+    else if(f==r)  
+    {  
+        printf("\nThe deleted element is %d", deque[r]);  
+        f=-1;  
+        r=-1;  
+          
+    }  
+     else if(r==0)  
+     {  
+         printf("\nThe deleted element is %d", deque[r]);  
+         r=size-1;  
+     }  
+     else  
+     {  
+          printf("\nThe deleted element is %d", deque[r]);  
+          r=r-1;  
+     } 
 }
 int main()
 {
@@ -92,11 +137,9 @@ int main()
                     {   
                         case 1: enq_rear(val);
                       		    break;
-                    	  case 2: val=deq_rear();
-                        		  printf("\nThe value deleted is %d",val);
+                    	  case 2: deq_rear();
                         		  break;
-                         case 3: val=deq_front();
-                       	          printf("\nThe value deleted is %d",val);
+                         case 3: deq_front();
                        	          break;
                          case 4: display();
                                   break;
@@ -117,8 +160,7 @@ int main()
                                  break;
                          case 2: enq_front(val);
                                  break;
-                         case 3: val=deq_front();
-                                 printf("\nThe value deleted is %d",val); 
+                         case 3: deq_front();
                                  break;
                          case 4: display();
                                  break;
